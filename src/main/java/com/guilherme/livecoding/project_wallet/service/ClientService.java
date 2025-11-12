@@ -6,31 +6,33 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class ClientService {
     private final ClientRepository repository;
 
-    private void validateClient(Client client) {
-        if (client == null) {
-            throw new IllegalArgumentException("Client body must not be null");
-        }
 
-        if (client.getName() == null || client.getName().isBlank()) {
-throw new IllegalArgumentException("Client name must not be empty");
-        }
-        if (client.getBalance() == null){
-            throw new IllegalArgumentException("Client balance must not be null");
-        }
-        if (client.getBalance().compareTo(BigDecimal.ZERO) < 0){
-throw new IllegalArgumentException("Client balance must not be negative");
-        }
 
-    }
-public Client createClient(Client client){
+    public Client createClient(Client client) {
         validateClient(client);
-        return repository.save(client)
-}
+        return repository.save(client);
+    }
+
+    public Client getClientById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Client id must not be null");
+        }
+
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + id));
+    }
+
+    public List<Client> getAllClients() {
+        return repository.findall()
+                .stream().toList();
+    }
+
 
 }

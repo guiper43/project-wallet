@@ -10,14 +10,14 @@ import java.util.Optional;
 
 @Repository
 public class ClientRepository {
-    private Map<long, Client> clientes = new HashMap<>();
+    private Map<Long, Client> clientes = new HashMap<>();
 
     public Client save(Client client) {
         clientes.put(client.getId(), client);
         return client;
     }
 
-    public Optional<Client> findByIdd(long id) {
+    public Optional<Client> findById(Long id) {
         return Optional.ofNullable(clientes.get(id));
     }
 
@@ -25,8 +25,11 @@ public class ClientRepository {
         return clientes.values();
     }
 
-    public boolean existsById(long id) {
+    public boolean existsById(Long id) {
         return clientes.containsKey(id);
     }
+public void deleteClientById(Long id){
+        clientes.remove(id);
+}
 
 }
