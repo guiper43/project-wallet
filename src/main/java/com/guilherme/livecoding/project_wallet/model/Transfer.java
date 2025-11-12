@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Transfer {
     private long originId;
-    private longdestinationId;
+    private long destinationId;
     private BigDecimal amount;
 private LocalDate timestamp;
 
