@@ -2,10 +2,12 @@ package com.guilherme.livecoding.project_wallet.utils;
 
 import com.guilherme.livecoding.project_wallet.model.Client;
 import com.guilherme.livecoding.project_wallet.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+@RequiredArgsConstructor
 @Component
 public class ValidationClient {
     private final ClientRepository repository;
@@ -21,8 +23,8 @@ public class ValidationClient {
 
     }
 
-    public void validateName(String nname) {
-        if (name == null || nname.isBlank()) {
+    public void validateName(String name) {
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Client name must not be empty");
         }
     }
@@ -45,7 +47,7 @@ public class ValidationClient {
     }
 
 
-    public void validatExists(Long id) {
+    public void validateExists(Long id) {
         if (!repository.existsById(id)) {
             throw new IllegalArgumentException("Client not found with id: " + id);
         }

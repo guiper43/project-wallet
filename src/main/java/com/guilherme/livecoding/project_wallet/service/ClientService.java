@@ -33,7 +33,7 @@ public class ClientService {
 
     public void deleteClient(Long id) {
         validator.validateIdClient(id);
-        validator.validatExists(id);
+        validator.validateExists(id);
         repository.deleteClient(id);
     }
 
@@ -43,7 +43,7 @@ public class ClientService {
         String nameUpdated = body.getName();
         validator.validateName(nameUpdated);
         clientExisting.setName(nameUpdated);
-        repository.save(clientExisting);
+        return repository.save(clientExisting);
     }
 
 }
