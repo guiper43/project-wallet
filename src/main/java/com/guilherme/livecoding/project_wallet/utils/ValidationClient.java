@@ -1,30 +1,14 @@
 package com.guilherme.livecoding.project_wallet.utils;
 
 import com.guilherme.livecoding.project_wallet.model.Client;
+import com.guilherme.livecoding.project_wallet.repository.ClientRepository;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 @Component
 public class ValidationClient {
-    private void validateClient(Client client) {
-        if (client == null) {
-            throw new IllegalArgumentException("Client body must not be null");
-        }
-
-        if (client.getName() == null || client.getName().isBlank()) {
-            throw new IllegalArgumentException("Client name must not be empty");
-        }
-
-        if (client.getBalance() == null) {
-            throw new IllegalArgumentException("Client balance must not be null");
-        }
-
-        if (client.getBalance().compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Client balance must not be negative");
-        }
-
-    }
+    private final ClientRepository repository;
 
     public void validateIdClient(Long id) {
         if (id == null) {
@@ -34,5 +18,38 @@ public class ValidationClient {
         if (id <= 0) {
             throw new IllegalArgumentException("Client id must be greater than zero");
         }
+
     }
+
+    public void validateName(String nname) {
+        if (name == null || nname.isBlank()) {
+            throw new IllegalArgumentException("Client name must not be empty");
+        }
+    }
+
+    public void validateBalance(BigDecimal balance) {
+        if (balance == null) {
+            throw new IllegalArgumentException("Client balance must not be null");
+        }
+
+        if (balance.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Client balance must not be negative");
+        }
+
+    }
+
+    public void validateBody(Client client) {
+        validateIdClient(client.getId());
+        validateName(client.getName());
+        validateBalance(client.getBalance());
+    }
+
+
+    public void validatExists(Long id) {
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("Client not found with id: " + id);
+        }
+
+    }
+
 }

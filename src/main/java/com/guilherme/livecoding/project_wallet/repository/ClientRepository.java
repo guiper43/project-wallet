@@ -28,8 +28,9 @@ public class ClientRepository {
     public boolean existsById(Long id) {
         return clientes.containsKey(id);
     }
-public void deleteClientById(Long id){
-        clientes.remove(id);
+
+public void deleteClient(Long id){
+    clientes.remove(id);
 }
 
 }
