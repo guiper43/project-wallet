@@ -1,13 +1,14 @@
 package com.guilherme.livecoding.project_wallet.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+@RequiredArgsConstructor
 @RestController
+@RequestMapping("/clients")
 public class ClientController {
-    @GetMapping("/teste")
-    public String exibir() {
-        return "toncat iniciado agora";
-    }
+
 
 }

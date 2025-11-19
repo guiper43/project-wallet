@@ -1,8 +1,12 @@
 package com.guilherme.livecoding.project_wallet.service;
 
+import com.guilherme.livecoding.project_wallet.dto.request.CreateClientRequest;
+import com.guilherme.livecoding.project_wallet.dto.request.UpdateClientRequest;
+import com.guilherme.livecoding.project_wallet.dto.response.ClientResponse;
 import com.guilherme.livecoding.project_wallet.model.Client;
 import com.guilherme.livecoding.project_wallet.repository.ClientRepository;
-import com.guilherme.livecoding.project_wallet.utils.ValidationClient;
+import com.guilherme.livecoding.project_wallet.utils.map.ClientMapper;
+import com.guilherme.livecoding.project_wallet.utils.validation.ClientValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,23 +16,30 @@ import java.util.List;
 @Service
 public class ClientService {
     private final ClientRepository repository;
-    private final ValidationClient validator;
+    private final ClientValidation validator;
 
 
-    public Client create(Client client) {
-        validator.validateBody(client);
-        return repository.save(client);
+    public ClientResponse create(CreateClientRequest request) {
+        validator.validateBody(request);
+        var client = ClientMapper.mappingToModel(request);
+        var created = repository.save(client);
+        return ClientMapper.mappingToDto(created);
     }
 
-    public Client getClientById(Long id) {
+    private Client findClientById(Long id) {
         validator.validateIdClient(id);
         return repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + id));
     }
 
-    public List<Client> getAllClients() {
-        return repository.findall()
-                .stream().toList();
+    public ClientResponse getClientById(Long id) {
+        var client = findClientById(id);
+        return ClientMapper.mappingToDto(client);
+    }
+
+    public List<ClientResponse> getAllClients() {
+        return repository.findall().stream()
+                .map(ClientMapper::mappingToDto).toList();
     }
 
     public void deleteClient(Long id) {
@@ -37,13 +48,17 @@ public class ClientService {
         repository.deleteClient(id);
     }
 
-    public Client updateClient(Long id, Client body) {
+    public ClientResponse updateClient(Long id, UpdateClientRequest request) {
         validator.validateIdClient(id);
-        var clientExisting = getClientById(id);
-        String nameUpdated = body.getName();
-        validator.validateName(nameUpdated);
-        clientExisting.setName(nameUpdated);
-        return repository.save(clientExisting);
+        validator.validateName(request.getName());
+        var clientExisting = findClientById(id);
+        var clientUpdated = Client.builder()
+                .id(clientExisting.getId())
+                .name(request.getName())
+                .balance(clientExisting.getBalance())
+                .build();
+        var result = repository.save(clientUpdated);
+        return ClientMapper.mappingToDto(result);
     }
 
 }

@@ -1,6 +1,6 @@
-package com.guilherme.livecoding.project_wallet.utils;
+package com.guilherme.livecoding.project_wallet.utils.validation;
 
-import com.guilherme.livecoding.project_wallet.model.Client;
+import com.guilherme.livecoding.project_wallet.dto.request.CreateClientRequest;
 import com.guilherme.livecoding.project_wallet.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 @Component
-public class ValidationClient {
+public class ClientValidation {
     private final ClientRepository repository;
 
     public void validateIdClient(Long id) {
@@ -40,10 +40,10 @@ public class ValidationClient {
 
     }
 
-    public void validateBody(Client client) {
-        validateIdClient(client.getId());
-        validateName(client.getName());
-        validateBalance(client.getBalance());
+    public void validateBody(CreateClientRequest request) {
+        validateIdClient(request.getId());
+        validateName(request.getName());
+        validateBalance(request.getBalance());
     }
 
 

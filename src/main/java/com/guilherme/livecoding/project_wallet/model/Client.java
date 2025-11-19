@@ -1,16 +1,15 @@
 package com.guilherme.livecoding.project_wallet.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Client {
-    private long id;
+    private Long id;
     private String name;
     private BigDecimal balance;
 }
