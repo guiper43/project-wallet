@@ -48,7 +48,7 @@ public class ClientService {
         repository.deleteClient(id);
     }
 
-    public ClientResponse updateClient(Long id, UpdateClientRequest request) {
+        public ClientResponse updateClient(Long id, UpdateClientRequest request) {
         validator.validateIdClient(id);
         validator.validateName(request.getName());
         var clientExisting = findClientById(id);
