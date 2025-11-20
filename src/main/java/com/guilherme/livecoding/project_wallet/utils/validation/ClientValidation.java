@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Component
@@ -49,7 +50,7 @@ public class ClientValidation {
 
     public void validateExists(Long id) {
         if (!repository.existsById(id)) {
-            throw new IllegalArgumentException("Client not found with id: " + id);
+            throw new NoSuchElementException("Client not found with id: " + id);
         }
 
     }
