@@ -1,8 +1,8 @@
 # Project Wallet
 
 ## Objetivo
-O Project Wallet tem o objetivo de simular de forma simplificada uma carteira digital de pagamentos, permitindo transferências entre contas de clientes.  
-O projeto foi **arquitetado** com foco em boas práticas de desenvolvimento utilizando Java 21 e Spring Boot 3.5.7, servindo como base para estudo e portfólio técnico. O desenvolvimento está em andamento.
+O **Project Wallet** é uma simulação de carteira digital desenvolvida com foco em boas práticas, utilizando **Java 21** e **Spring Boot 3.5.7**.  
+Serve como base de estudos, treinamento técnico e portfólio pessoal.
 
 ## Tecnologias Utilizadas
 - Java 21
@@ -11,45 +11,56 @@ O projeto foi **arquitetado** com foco em boas práticas de desenvolvimento util
 - Tomcat (embutido)
 
 ## Funcionalidades
-### Client
-- Cadastro de clientes contendo os campos:
-    - id
-    - name
-    - balance
 
-### Transfer (a desenvolver)
-- Realização de transferências entre contas de clientes utilizando:
-    - originId
-    - destinationId
-    - amount
+### Client — (CRUD completo implementado e testado via REST Client)
+Campos do cliente:
+- `id`
+- `name`
+- `balance`
+
+Endpoints implementados:
+- **POST /clients** → criar cliente
+- **GET /clients** → listar todos
+- **GET /clients/{id}** → buscar por ID
+- **PUT /clients/{id}** → atualizar cliente
+- **DELETE /clients/{id}** → deletar cliente
+
+### Transfer — (Ainda não iniciado)
+Campos previstos:
+- `originId`
+- `destinationId`
+- `amount`
 
 ## Regras de Negócio
-- Não é permitido transferir valores entre o mesmo identificador (id).
-- O valor da transferência deve ser maior que zero.
-- Não é permitido transferir um valor superior ao saldo disponível na conta de origem.
-- O sistema deve validar os principais erros HTTP e retornar respostas adequadas:
-    - **400** → Requisição inválida (valores incorretos ou dados ausentes)
-    - **404** → Client não encontrado
-    - **500** → Erro interno no servidor
+- Não transferir para o mesmo `id`.
+- O valor da transferência deve ser positivo.
+- A conta de origem deve possuir saldo suficiente.
+- Respostas HTTP adequadas:
+    - **400** → dados inválidos
+    - **404** → cliente não encontrado
+    - **500** → erro interno
 
 ## Estrutura do Projeto
-O projeto está organizado em pacotes conforme boas práticas do Spring Boot:
 
-- **model** → classes de domínio (Client, Transfer).
-- **dto** → objetos de transferência de dados entre camadas.
-- **repository** → manipulação e persistência dos clientes em memória usando `Map`.
-- **service** → regras de negócio e validações.
-- **controller** → endpoints REST para cadastro e, futuramente, transferências.
+- **model** → classes de domínio (Client, Transfer)
+- **dto** → objetos de entrada e saída (DTOs)
+- **repository** → armazenamento em memória via `Map`
+- **service** → regras de negócio do CRUD
+- **controller** → endpoints REST
+- **utils/validations** → validações (id, name, balance)
+- **utils/mapper** → `ClientMapper` (Model ↔ DTO)
 
 ## Execução
-1. Certifique-se de ter Java 21 instalado.
-2. Execute o projeto diretamente pela classe principal (`main`) no IntelliJ ou através do comando "Run" da IDE.
-3. A aplicação estará disponível em `http://localhost:8080`.
+1. Certifique-se de ter o **Java 21** instalado.
+2. Execute o projeto pela classe principal (`main`) no IntelliJ.
+3. A aplicação estará disponível em: **http://localhost:8080**
 
-## Status do Projeto
-- Arquitetura inicial estruturada
-- Servidor Tomcat configurado e funcionando
-- **Validações do objeto Client concluídas**
-- **Criação de clientes implementada**
-- **Testes pendentes**
-- Desenvolvimento das operações de transferência ainda não iniciado  
+## Status do Projeto — Atualizado
+- Arquitetura consolidada
+- Tomcat funcionando corretamente
+- **CRUD completo de Client implementado**
+- **Endpoints testados e validados via REST Client**
+- Validações em `utils/validations`
+- Mapper em `utils/mapper`
+- Testes unitários pendentes
+- Módulo de Transfer ainda não iniciado  
