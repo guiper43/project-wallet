@@ -45,6 +45,7 @@ public class ClientValidation {
         validateIdClient(request.getId());
         validateName(request.getName());
         validateBalance(request.getBalance());
+        validateDuplicateClient(request.getId());
     }
 
 
@@ -52,7 +53,12 @@ public class ClientValidation {
         if (!repository.existsById(id)) {
             throw new NoSuchElementException("Client not found with id: " + id);
         }
+    }
 
+    private void validateDuplicateClient(Long id) {
+        if (repository.existsById(id)) {
+            throw new IllegalStateException("Client already exists");
+        }
     }
 
 }
