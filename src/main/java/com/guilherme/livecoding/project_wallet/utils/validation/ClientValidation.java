@@ -18,7 +18,6 @@ public class ClientValidation {
         if (id <= 0) {
             throw new IllegalArgumentException("Client id must be greater than zero");
         }
-
     }
 
     public void validateName(String name) {
